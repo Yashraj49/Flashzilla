@@ -1,0 +1,35 @@
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+@State private var offset = CGSize.zero: This creates a state property called offset that represents the distance the circle has been dragged. It is initialized with zero size (CGSize.zero).
+
+@State private var isDragging = false: This creates another state property called isDragging that represents whether the circle is currently being dragged or not. It is initially set to false.
+
+The body computed property defines the view's body, which describes the view's appearance and behavior.
+
+let dragGesture = DragGesture()...: This creates a DragGesture instance called dragGesture. The DragGesture is a gesture that tracks the movement of the user's finger on the screen. It updates the offset property with the translation of the gesture.
+
+.onChanged { value in offset = value.translation }: This is a closure that gets executed when the user starts dragging the circle. It updates the offset property with the translation value of the drag gesture.
+
+.onEnded { _ in...: This closure gets executed when the user finishes dragging the circle. It resets the offset property to zero and sets isDragging to false. The changes are wrapped in an animation block to animate the resetting of the properties.
+
+let pressGesture = LongPressGesture()...: This creates a LongPressGesture instance called pressGesture. The LongPressGesture is a gesture that detects a long press on the screen.
+
+.onEnded { value in...: This closure gets executed when the long press gesture ends. It sets isDragging to true to indicate that the circle is being dragged. The change is wrapped in an animation block to animate the updating of the isDragging property.
+
+let combined = pressGesture.sequenced(before: dragGesture): This creates a new gesture called combined by combining the pressGesture and dragGesture together. The combined gesture enforces that the user first performs a long press and then drags the circle.
+
+Circle()...: This creates a circle shape view using the SwiftUI Circle struct.
+
+.fill(.red): This sets the fill color of the circle to red.
+
+.frame(width: 64, height: 64): This sets the size of the circle to a fixed width and height of 64 points.
+
+.scaleEffect(isDragging ? 1.5 : 1): This scales the circle's size based on the value of isDragging. If isDragging is true, the
+ circle is scaled up by a factor of 1.5; otherwise, it remains at its original size.
+
+.offset(offset): This applies an offset to the circle's position based on the value of the offset property, which represents the distance it has been dragged.
+
+.gesture(combined): This attaches the combined gesture (long press followed by drag) to the circle view, allowing it to be dragged when the combined gesture is performed.
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
