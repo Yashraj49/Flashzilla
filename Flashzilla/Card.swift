@@ -9,10 +9,16 @@ import Foundation
 import SwiftUI
 
 
-
-struct Card : Codable {
+struct Card : Codable , Identifiable {
+    
+    var id  = UUID()
     let prompt : String
     let answer : String
     
-    static let example = Card(prompt: "Who played the 13th Doctor in Doctor Who?", answer: "Jodie Whittaker")
+    static var example : Card {
+        return Card(prompt: "Who played the 13th Doctor in Doctor Who?", answer: "Jodie Whittaker")
+    }
+    
+    
+    
 }

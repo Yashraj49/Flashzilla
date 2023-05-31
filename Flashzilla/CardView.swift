@@ -10,7 +10,9 @@ import SwiftUI
 struct CardView: View {
     
     let card: Card
-    var removal: (() -> Void)? = nil
+    var removal: ((_ isCorrect: Bool) -> Void)?
+    
+   
     
     @Environment(\.accessibilityDifferentiateWithoutColor) var differentiateWithoutColor
     @Environment(\.accessibilityVoiceOverEnabled) var voiceOverEnabled
@@ -38,6 +40,10 @@ struct CardView: View {
                 )
                 .shadow(radius: 10)
                 
+            if (offset == CGSize.zero) {
+                 
+            }
+            
 
             VStack {
                 if voiceOverEnabled {
@@ -62,7 +68,7 @@ struct CardView: View {
         }
         .frame(width: 450, height: 250)
         .rotationEffect(.degrees(Double(offset.width / 5)))
-        .offset(x: offset.width * 5 ,y: 0)
+        .offset(x: offset.width * 20 ,y: 0)
         .opacity(2 - Double(abs(offset.width / 50)))
         .accessibilityAddTraits(.isButton)
         .gesture(
@@ -85,7 +91,8 @@ struct CardView: View {
                             {
                                 feedback.notificationOccurred(.error)
                             }
-                            removal?()
+                            self.removal?(self.offset.width > 0
+                            )
                         } else {
                             offset = .zero
                         }
@@ -97,8 +104,14 @@ struct CardView: View {
             isShowingAnswer.toggle()
         }
         .animation(.spring(), value: offset)
+        
+     
+        
     }
 }
+
+
+
 
 
 
